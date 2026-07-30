@@ -1,0 +1,8 @@
+target/
+.env
+*.class
+*.jar
+*.war
+.mvn/
+data/
+*.db
