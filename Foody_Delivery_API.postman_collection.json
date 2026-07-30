@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "a87e56bc-1234-4567-89ab-cdef01234567",
 		"name": "Foody Delivery - Mini Rastreador de Pedidos API",
-		"description": "Coleção completa de endpoints para a API do Mini Rastreador de Pedidos da Foody Delivery.\nInclui Autenticação JWT, Gestão CRUD de Pedidos, Atualização de Status e Histórico/Auditoria Completo.",
+		"description": "Coleção completa de endpoints para a API do Mini Rastreador de Pedidos da Foody Delivery.\nInclui Autenticação JWT, Gestão CRUD de Pedidos, Gestão de Produtos/Cardápio, Atualização de Status e Histórico/Auditoria Completo.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -88,6 +88,208 @@
 			]
 		},
 		{
+			"name": "Produtos (Cardápio)",
+			"item": [
+				{
+					"name": "1. Listar Todos os Produtos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Retorna a lista completa de produtos do cardápio."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Listar por Categoria",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/category/HAMBURGUER",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"category",
+								"HAMBURGUER"
+							]
+						},
+						"description": "Retorna os produtos filtrados por categoria. Categorias aceitas: HAMBURGUER, CACHORRO_QUENTE, SANDUICHE, BEBIDA, SOBREMESA."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Buscar Produto por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Retorna os detalhes de um produto específico."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Criar Novo Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Hambúrguer de Cordeiro\",\n  \"description\": \"Pão brioche, 180g de carne de cordeiro e geleia de pimenta\",\n  \"price\": 42.90,\n  \"category\": \"HAMBURGUER\",\n  \"available\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Cadastra um novo produto no cardápio."
+					},
+					"response": []
+				},
+				{
+					"name": "5. Atualizar Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Foody Classic Burger Especial\",\n  \"description\": \"Pão brioche, 200g blend bovino e molho especial\",\n  \"price\": 31.90,\n  \"category\": \"HAMBURGUER\",\n  \"available\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/products/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Edita os dados de um produto existente."
+					},
+					"response": []
+				},
+				{
+					"name": "6. Excluir Produto",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/products/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Exclui um produto do cardápio."
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Pedidos (Orders)",
 			"item": [
 				{
@@ -112,7 +314,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"customerName\": \"João da Silva\",\n  \"deliveryAddress\": \"Av. Paulista, 1000 - São Paulo/SP\",\n  \"items\": [\n    {\n      \"productName\": \"Hambúrguer Artesanal Foody\",\n      \"quantity\": 2,\n      \"unitPrice\": 35.50\n    },\n    {\n      \"productName\": \"Refrigerante Guaraná 350ml\",\n      \"quantity\": 2,\n      \"unitPrice\": 6.00\n    }\n  ]\n}"
+							"raw": "{\n  \"customerName\": \"João da Silva\",\n  \"deliveryAddress\": \"Av. Paulista, 1000 - São Paulo/SP\",\n  \"items\": [\n    {\n      \"productName\": \"Foody Classic Burger\",\n      \"quantity\": 2,\n      \"unitPrice\": 29.90\n    },\n    {\n      \"productName\": \"Refrigerante Guaraná 350ml\",\n      \"quantity\": 2,\n      \"unitPrice\": 6.50\n    }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/orders",
@@ -280,7 +482,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"customerName\": \"João da Silva Sobrinho\",\n  \"deliveryAddress\": \"Rua Augusta, 500 - Ap 42 - SP\",\n  \"items\": [\n    {\n      \"productName\": \"Pizza Grande Calabresa\",\n      \"quantity\": 1,\n      \"unitPrice\": 55.00\n    }\n  ]\n}"
+							"raw": "{\n  \"customerName\": \"João da Silva Sobrinho\",\n  \"deliveryAddress\": \"Rua Augusta, 500 - Ap 42 - SP\",\n  \"items\": [\n    {\n      \"productName\": \"Foody Smash Double Cheese\",\n      \"quantity\": 1,\n      \"unitPrice\": 34.90\n    }\n  ]\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/api/orders/1",
