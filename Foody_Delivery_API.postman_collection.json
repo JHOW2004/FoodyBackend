@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "a87e56bc-1234-4567-89ab-cdef01234567",
+		"name": "Foody Delivery - Mini Rastreador de Pedidos API",
+		"description": "Coleção completa de endpoints para a API do Mini Rastreador de Pedidos da Foody Delivery.\nInclui Autenticação JWT, Gestão CRUD de Pedidos, Atualização de Status e Histórico/Auditoria Completo.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticação",
+			"item": [
+				{
+					"name": "1. Registrar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Desenvolvedor Foody\",\n  \"email\": \"dev@foody.com.br\",\n  \"password\": \"senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Cadastra um novo usuário no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Login de Usuário",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.environment.set(\"token\", jsonData.token);",
+									"        pm.collectionVariables.set(\"token\", jsonData.token);",
+									"        console.log(\"Token JWT salvo com sucesso!\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"dev@foody.com.br\",\n  \"password\": \"senha123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Autentica o usuário e salva o token JWT automaticamente na variável 'token'."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos (Orders)",
+			"item": [
+				{
+					"name": "1. Criar Pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerName\": \"João da Silva\",\n  \"deliveryAddress\": \"Av. Paulista, 1000 - São Paulo/SP\",\n  \"items\": [\n    {\n      \"productName\": \"Hambúrguer Artesanal Foody\",\n      \"quantity\": 2,\n      \"unitPrice\": 35.50\n    },\n    {\n      \"productName\": \"Refrigerante Guaraná 350ml\",\n      \"quantity\": 2,\n      \"unitPrice\": 6.00\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Cria um novo pedido de delivery com itens e endereço."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Listar Todos os Pedidos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Retorna todos os pedidos cadastrados ordenados pela data de criação."
+					},
+					"response": []
+				},
+				{
+					"name": "3. Buscar Pedido por ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/orders/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"1"
+							]
+						},
+						"description": "Busca os detalhes de um pedido específico pelo seu ID."
+					},
+					"response": []
+				},
+				{
+					"name": "4. Atualizar Status do Pedido",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"EM_PREPARO\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/orders/1/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"1",
+								"status"
+							]
+						},
+						"description": "Atualiza o status do pedido e registra evento no histórico. Valores: RECEBIDO, EM_PREPARO, SAIU_PARA_ENTREGA, ENTREGUE, CANCELADO."
+					},
+					"response": []
+				},
+				{
+					"name": "5. Ver Histórico/Timeline do Pedido (EXTRA)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/orders/1/history",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"1",
+								"history"
+							]
+						},
+						"description": "Retorna o histórico completo (timeline) de alterações de status e edições do pedido com timestamps."
+					},
+					"response": []
+				},
+				{
+					"name": "6. Editar Pedido (EXTRA)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerName\": \"João da Silva Sobrinho\",\n  \"deliveryAddress\": \"Rua Augusta, 500 - Ap 42 - SP\",\n  \"items\": [\n    {\n      \"productName\": \"Pizza Grande Calabresa\",\n      \"quantity\": 1,\n      \"unitPrice\": 55.00\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/orders/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"1"
+							]
+						},
+						"description": "Edita os dados e itens de um pedido existente."
+					},
+					"response": []
+				},
+				{
+					"name": "7. Excluir Pedido (EXTRA)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/orders/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"1"
+							]
+						},
+						"description": "Exclui um pedido do banco de dados."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
