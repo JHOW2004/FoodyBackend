@@ -56,9 +56,6 @@ com.foody.delivery
 ### Passo a Passo:
 
 1. **Acessar a pasta do backend**:
-   ```bash
-   cd C:\Projetos\Foody\backend
-   ```
 
 2. **Executar a aplicação via Maven**:
    ```powershell
