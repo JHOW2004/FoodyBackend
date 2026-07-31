@@ -74,6 +74,24 @@ com.foody.delivery
 
 ---
 
+## 🗄️ Acesso ao Banco de Dados (H2 Console Web) 🌐
+
+O banco de dados do sistema é o **H2 Database Embedded** com persistência em arquivo local. Para consultar e visualizar as tabelas do banco de dados diretamente pelo navegador:
+
+### H2 Console Web 🌐
+
+Com o seu backend Spring Boot rodando na porta `8080`:
+
+1. Abra seu navegador e acesse: **`http://localhost:8080/h2-console`**
+2. Preencha os dados de conexão:
+   - **Driver Class**: `org.h2.Driver`
+   - **JDBC URL**: `jdbc:h2:file:./data/foody_delivery`
+   - **User Name**: `sa`
+   - **Password**: *(deixe em branco)*
+3. Clique em **Connect**.
+
+---
+
 ## 📑 Documentação dos Endpoints REST
 
 ### 📄 Swagger UI (Interativo)
